@@ -1,28 +1,13 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This app demonstrates what appears to be a defect in the handling of a chain of has_one, through relationships when a 
+before_save callback is present. This only occurs if the has_one, through chain has at least 2 intermediate classes.
 
-Things you may want to cover:
+The classes used here are: King, Queen, Jack and Ten. 
+  King  has_one Queen.
+  Queen belongs_to King  and has_one Jack. 
+  Jack  belongs_to Queen and has_one Ten.
+  Ten   belongs_to Jack  and has_one, through Queen and has_one, through King (via Queen)
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Then with a before_save callback on Ten (Ten#refer_to_king), a reference to king is nil during the save process. This appears 
+to be a defect. Note direct references to jack and queen are okay from the callback.
