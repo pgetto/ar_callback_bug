@@ -5,7 +5,14 @@ class Ten < ActiveRecord::Base
 
 
   def refer_to_king
-    puts "   **** Error: King is nil ****" if king.nil?
+    puts "   jack:            #{jack.try(:id) || '*** Error: nil ***'}"
+    puts "   jack.queen:      #{jack.try(:queen).try(:id) || '*** Error: nil ***'}"
+    puts "   queen:           #{queen.try(:id) || '*** Error: nil ***'}"
+    puts "   jack.queen.king: #{jack.try(:queen).try(:king).try(:id) || '*** Error: nil ***'}"
+    puts "   queen.king:      #{queen.try(:king).try(:id) || '*** Error: nil ***'}"
+    puts "   king:            #{king.try(:id) || '*** Error: nil ***'}"
+    puts ""
+
     true
   end
 
