@@ -5,7 +5,7 @@ class Ten < ActiveRecord::Base
 
 
   def refer_to_king
-    puts "King: #{king.inspect}"
+    puts "   **** Error: King is nil ****" if king.nil?
     true
   end
 
