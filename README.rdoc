@@ -1,13 +1,15 @@
 == README
 
-This app demonstrates what appears to be a defect in the handling of a chain of has_one, through relationships when a 
+This app demonstrates what appears to be a defect in the handling of a chain of has_one, through relationships when a
 before_save callback is present. This only occurs if the has_one, through chain has at least 2 intermediate classes.
 
-The classes used here are: King, Queen, Jack and Ten. 
+The classes used here are: King, Queen, Jack and Ten.
   King  has_one Queen.
-  Queen belongs_to King  and has_one Jack. 
+  Queen belongs_to King  and has_one Jack.
   Jack  belongs_to Queen and has_one Ten.
-  Ten   belongs_to Jack  and has_one, through Queen and has_one, through King (via Queen)
+  Ten   belongs_to Jack  and has_one Queen through Jack and has_one King through Queen
 
-Then with a before_save callback on Ten (Ten#refer_to_king), a reference to king is nil during the save process. This appears 
+Then with a before_save callback on Ten (Ten#refer_to_king), a reference to king is nil during the save process. This appears
 to be a defect. Note direct references to jack and queen are okay from the callback.
+
+Running tests will result in output from the callback that demonstrates the problem (reference to king from ten in call is nil).
