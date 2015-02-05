@@ -19,6 +19,11 @@ class TenTest < ActiveSupport::TestCase
     assert ten.king_reference == nil
     assert ten.indirectly_the_real_king == @king
     Ten.skip_callback(:save, :before, :refer_to_king)
+
+    ten.reload
+    assert ten.king == @king
+    assert ten.king_reference == @king
+    assert ten.indirectly_the_real_king == @king
   end
 
   test "with an after save callback, king should not be nil" do
